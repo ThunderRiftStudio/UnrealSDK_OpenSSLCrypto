@@ -3,9 +3,13 @@
 #include "OpenSSLCryptoAsyncTasks.h"
 #include "Async/Async.h"
 
+// AnyBackgroundThreadNormalTask soumet au TaskGraph pool, partage avec le
+// rendu, la physique etc. Sous charge ca peut creer de la contention qui
+// ressemble a un freeze du jeu. Async(EAsyncExecution::Thread, ...) cree un
+// vrai thread OS dedie, jamais partage avec le TaskGraph. C'est ce qui rend
+// ces noeuds vraiment async et ne bloque plus le Game Thread.
 
 // UAsyncEncryptAES256GCM
-
 
 UAsyncEncryptAES256GCM* UAsyncEncryptAES256GCM::AsyncEncryptAES256GCM(
 	const TArray<uint8>& InPlaintext,
@@ -27,7 +31,7 @@ void UAsyncEncryptAES256GCM::Activate()
 
 	TWeakObjectPtr<UAsyncEncryptAES256GCM> WeakThis(this);
 
-	AsyncTask(ENamedThreads::AnyBackgroundThreadNormalTask,
+	Async(EAsyncExecution::Thread,
 		[WeakThis, LocalPlaintext, LocalPassword, LocalIterations]() mutable
 	{
 		FOpenSSLCryptoResult Result =
@@ -45,9 +49,7 @@ void UAsyncEncryptAES256GCM::Activate()
 	});
 }
 
-
 // UAsyncDecryptAES256GCM
-
 
 UAsyncDecryptAES256GCM* UAsyncDecryptAES256GCM::AsyncDecryptAES256GCM(
 	const TArray<uint8>& InEncryptedPayload,
@@ -69,7 +71,7 @@ void UAsyncDecryptAES256GCM::Activate()
 
 	TWeakObjectPtr<UAsyncDecryptAES256GCM> WeakThis(this);
 
-	AsyncTask(ENamedThreads::AnyBackgroundThreadNormalTask,
+	Async(EAsyncExecution::Thread,
 		[WeakThis, LocalPayload, LocalPassword, LocalIterations]() mutable
 	{
 		FOpenSSLCryptoResult Result =
@@ -87,9 +89,7 @@ void UAsyncDecryptAES256GCM::Activate()
 	});
 }
 
-
 // UAsyncEncryptAES256GCM_RawKey
-
 
 UAsyncEncryptAES256GCM_RawKey* UAsyncEncryptAES256GCM_RawKey::AsyncEncryptAES256GCM_RawKey(
 	const TArray<uint8>& InPlaintext,
@@ -108,7 +108,7 @@ void UAsyncEncryptAES256GCM_RawKey::Activate()
 
 	TWeakObjectPtr<UAsyncEncryptAES256GCM_RawKey> WeakThis(this);
 
-	AsyncTask(ENamedThreads::AnyBackgroundThreadNormalTask,
+	Async(EAsyncExecution::Thread,
 		[WeakThis, LocalPlaintext, LocalKey]() mutable
 	{
 		FOpenSSLCryptoResult Result =
@@ -125,9 +125,7 @@ void UAsyncEncryptAES256GCM_RawKey::Activate()
 	});
 }
 
-
 // UAsyncDecryptAES256GCM_RawKey
-
 
 UAsyncDecryptAES256GCM_RawKey* UAsyncDecryptAES256GCM_RawKey::AsyncDecryptAES256GCM_RawKey(
 	const TArray<uint8>& InEncryptedPayload,
@@ -146,7 +144,7 @@ void UAsyncDecryptAES256GCM_RawKey::Activate()
 
 	TWeakObjectPtr<UAsyncDecryptAES256GCM_RawKey> WeakThis(this);
 
-	AsyncTask(ENamedThreads::AnyBackgroundThreadNormalTask,
+	Async(EAsyncExecution::Thread,
 		[WeakThis, LocalPayload, LocalKey]() mutable
 	{
 		FOpenSSLCryptoResult Result =

@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "2.3",
+	"VersionName": "2.4",
 	"FriendlyName": "OpenSSL Crypto (AES-256-GCM)",
 	"Description": "Blueprint-accessible AES-256-GCM encryption/decryption using OpenSSL 1.1.1t. Supports key derivation via PBKDF2-HMAC-SHA256, random IV generation via RAND_bytes, and full GCM authentication tag handling. Safe for binary files.",
 	"Category": "Cryptography",
