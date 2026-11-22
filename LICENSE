@@ -19,3 +19,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+OpenSSL 1.1.1t is licensed under the OpenSSL/SSLeay license (compatible with the Apache 2.0 license as of OpenSSL 3.x; for earlier versions, see https://www.openssl.org/source/license.html).
